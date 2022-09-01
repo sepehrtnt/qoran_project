@@ -14,22 +14,21 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="wrapper">
-                <input type="text" class="input_search" placeholder="صفحه">
-                <input type="text" class="input_search" placeholder="شماره آیه">
-                <input type="text" class="input_search" placeholder="موضوع">
-                <input type="text" class="input_search" placeholder="متن آیه">
-                <button onclick="search()">جستجو</button>
-        </div>
-        <p id="paragraph">
-            {% if text %}
-        {{text}}
-    {% else %}
-        ...لطفا جستجو کنید
-    {% endif %}
-            
-        </p>
+<div class="container">
+    <div class="wrapper">
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" name="page" class="input_search" placeholder="صفحه">
+            <input type="text" name="number_aye" class="input_search" placeholder="شماره آیه">
+            <input type="text" name="topic" class="input_search" placeholder="موضوع">
+{#            <input type="text" name="text" class="input_search" placeholder="متن آیه">#}
+            <button type="submit">جستجو</button>
+        </form>
     </div>
+    <p id="paragraph">
+            {{text}}
+
+    </p>
+</div>
 </body>
 </html>
