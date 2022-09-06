@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from .models import Verses
-from django.db.models import Q
 
 
 def index(request):
@@ -9,36 +8,21 @@ def index(request):
         number_aye = request.POST['number_aye']
         topic = request.POST['topic']
         try:
-            print('*' * 10)
-            # data = Verses.objects.raw(
-            #     '''SELECT
-            #         *
-            #     FROM
-            #         book_verses
-            #     WHERE
-            #         page = %s
-            #         and number_aye = %s
-            #         and topic = %s  ''', [page, number_aye, topic])[0]
-            # return render(request, 'book_search.html',
-            #               {
-            #                   'text': data.text
-            #               })
-            data = Verses.objects.all().filter(page=page, number_aye=number_aye).get()
-            # data = Verses.objects.get(page=page, number_aye=number_aye, topic=topic)
-            print('1' * 10)
-            print(data.text)
-            return render(request, 'book_search.html',
+            data = Verses.objects.filter(page=page,
+                                         number_aye=number_aye,
+                                         topic__icontains=topic).get()
+            return render(request, 'blog/post/book_search.html',
                           {
                               'text': data.text
                           })
         except:
-            return render(request, 'book_search.html',
+            return render(request, 'blog/post/book_search.html',
                           {
-                              'text': 'چیزی پیدا نشد لطفا دوباره سرچ کنید...'
+                              'text': 'لطفا همه فیلد ها را پر کنید...'
                           })
 
-    data = Verses.objects.all().filter(page='2')
-    return render(request, 'book_search.html',
+    data = Verses.objects.get(page='1')
+    return render(request, 'blog/post/book_search.html',
                   {
                       'text': data.text
                   })
